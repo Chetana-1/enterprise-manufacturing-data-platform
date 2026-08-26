@@ -25,5 +25,9 @@ Thumbs.db
 *.tmp
 *.temp
 
+# Excel temporary files
+~$*.xlsx
+~$*.xls
+
 # Sensitive configuration
 .env
