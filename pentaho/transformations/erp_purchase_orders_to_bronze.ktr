@@ -1008,11 +1008,11 @@
       <field>
         <name>source_file</name>
         <type>String</type>
-        <format>erp_purchase_orders.xml</format>
+        <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif/>
+        <nullif>erp_purchase_orders.xml</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -1020,11 +1020,11 @@
       <field>
         <name>batch_id</name>
         <type>String</type>
-        <format>ERP_PURCHASE_ORDERS_001</format>
+        <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif/>
+        <nullif>ERP_PURCHASE_ORDERS_001</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
