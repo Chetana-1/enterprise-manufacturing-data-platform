@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>1 CSV file</name>
+    <name>erp_purchase_orders_to_bronze</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,23 +427,23 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2026/08/20 22:28:21.394</created_date>
+    <created_date>2026/08/28 06:36:38.246</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2026/08/20 22:28:21.394</modified_date>
-    <key_for_session_key>H4sIAAAAAAAA/wMAAAAAAAAAAAA=</key_for_session_key>
+    <modified_date>2026/08/28 06:36:38.246</modified_date>
+    <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>smartiot</name>
+    <name>DA-1_PostgreSQL</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>smartiot</database>
+    <database>DA-1</database>
     <port>5432</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4fa4bfd248bc4f882</password>
+    <password>Encrypted 2be98afc86aa7f2a6aa1aa5508fc1ff8e</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -488,19 +488,29 @@
   </connection>
   <order>
     <hop>
-      <from>CSV file input</from>
-      <to>Write to log</to>
+      <from>Read Purchase Orders XML</from>
+      <to>Convert Purchase Order Fields</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Write to log</from>
-      <to>Table output</to>
+      <from>Convert Purchase Order Fields</from>
+      <to>Add XML Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Add XML Metadata</from>
+      <to>Generate Load Timestamp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Generate Load Timestamp</from>
+      <to>Load Purchase Orders Bronze</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>CSV file input</name>
-    <type>CsvInput</type>
+    <name>Read Purchase Orders XML</name>
+    <type>getXMLData</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -509,163 +519,515 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>D:/Pentaho Project/1. CSV smart_IOT_manufacturing_data.csv</filename>
-    <filename_field/>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <namespaceaware>N</namespaceaware>
+    <ignorecomments>N</ignorecomments>
+    <readurl>N</readurl>
+    <validating>N</validating>
+    <usetoken>N</usetoken>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
     <rownum_field/>
-    <include_filename>N</include_filename>
-    <separator>,</separator>
-    <enclosure>"</enclosure>
-    <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>Y</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <format>mixed</format>
-    <encoding/>
+    <encoding>UTF-8</encoding>
+    <file>
+      <name>C:\Enterprise_Manufacturing_Data_Platform\datasets\erp_purchase_orders.xml</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
     <fields>
       <field>
-        <name>timestamp</name>
+        <name>purchase_order_id</name>
+        <xpath>purchase_order_id</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>16</length>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <name>machine_id</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>temperature</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>5</length>
-        <precision>2</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>vibration</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>5</length>
-        <precision>2</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>humidity</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>5</length>
-        <precision>2</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>pressure</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>4</length>
-        <precision>2</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>energy_consumption</name>
-        <type>Number</type>
-        <format>#.#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>4</length>
-        <precision>2</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>machine_status</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>anomaly_flag</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>predicted_remaining_life</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>failure_type</name>
+        <name>supplier_id</name>
+        <xpath>supplier_id</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <name>downtime_risk</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
+        <name>supplier_name</name>
+        <xpath>supplier_name</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
         <trim_type>none</trim_type>
+        <repeat>N</repeat>
       </field>
       <field>
-        <name>maintenance_required</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>Rs.</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
+        <name>material_id</name>
+        <xpath>material_id</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
         <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>material_name</name>
+        <xpath>material_name</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>quantity</name>
+        <xpath>quantity</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>unit_price</name>
+        <xpath>unit_price</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>Number</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>order_date</name>
+        <xpath>order_date</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>delivery_date</name>
+        <xpath>delivery_date</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>warehouse_id</name>
+        <xpath>warehouse_id</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>status</name>
+        <xpath>status</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <loopxpath>/purchase_orders/purchase_order</loopxpath>
+    <IsInFields>N</IsInFields>
+    <IsAFile>N</IsAFile>
+    <XmlField/>
+    <prunePath/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>200</xloc>
+      <yloc>100</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Convert Purchase Order Fields</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>purchase_order_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>supplier_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>supplier_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>material_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>material_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>quantity</name>
+        <rename/>
+      </field>
+      <field>
+        <name>unit_price</name>
+        <rename/>
+      </field>
+      <field>
+        <name>order_date</name>
+        <rename/>
+      </field>
+      <field>
+        <name>delivery_date</name>
+        <rename/>
+      </field>
+      <field>
+        <name>warehouse_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>status</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>purchase_order_id</name>
+        <rename>purchase_order_id</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>supplier_id</name>
+        <rename>supplier_id</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>supplier_name</name>
+        <rename>supplier_name</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>material_id</name>
+        <rename>material_id</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>material_name</name>
+        <rename>material_name</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>quantity</name>
+        <rename>quantity</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>unit_price</name>
+        <rename>unit_price</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>0.00</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>order_date</name>
+        <rename>order_date</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy-MM-dd</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>delivery_date</name>
+        <rename>delivery_date</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy-MM-dd</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>warehouse_id</name>
+        <rename>warehouse_id</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>status</name>
+        <rename>status</rename>
+        <type>None</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>100</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Add XML Metadata</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>source_file</name>
+        <type>String</type>
+        <format>erp_purchase_orders.xml</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>batch_id</name>
+        <type>String</type>
+        <format>ERP_PURCHASE_ORDERS_001</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
     <attributes/>
@@ -677,14 +1039,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>240</yloc>
+      <xloc>600</xloc>
+      <yloc>100</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
+    <name>Generate Load Timestamp</name>
+    <type>SystemInfo</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -693,13 +1055,12 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
     <fields>
-      </fields>
+      <field>
+        <name>load_timestamp</name>
+        <type>system date (fixed)</type>
+      </field>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -709,13 +1070,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>472</xloc>
-      <yloc>240</yloc>
+      <xloc>800</xloc>
+      <yloc>100</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table output</name>
+    <name>Load Purchase Orders Bronze</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -725,11 +1086,11 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>smartiot</connection>
-    <schema>staging</schema>
-    <table>iot_manufacturing_data</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
+    <connection>DA-1_PostgreSQL</connection>
+    <schema>bronze</schema>
+    <table>erp_purchase_orders</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
@@ -744,56 +1105,60 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>timestamp</column_name>
-        <stream_name>timestamp</stream_name>
+        <column_name>purchase_order_id</column_name>
+        <stream_name>purchase_order_id</stream_name>
       </field>
       <field>
-        <column_name>machine_id</column_name>
-        <stream_name>machine_id</stream_name>
+        <column_name>supplier_id</column_name>
+        <stream_name>supplier_id</stream_name>
       </field>
       <field>
-        <column_name>temperature</column_name>
-        <stream_name>temperature</stream_name>
+        <column_name>supplier_name</column_name>
+        <stream_name>supplier_name</stream_name>
       </field>
       <field>
-        <column_name>vibration</column_name>
-        <stream_name>vibration</stream_name>
+        <column_name>material_id</column_name>
+        <stream_name>material_id</stream_name>
       </field>
       <field>
-        <column_name>humidity</column_name>
-        <stream_name>humidity</stream_name>
+        <column_name>material_name</column_name>
+        <stream_name>material_name</stream_name>
       </field>
       <field>
-        <column_name>pressure</column_name>
-        <stream_name>pressure</stream_name>
+        <column_name>quantity</column_name>
+        <stream_name>quantity</stream_name>
       </field>
       <field>
-        <column_name>energy_consumption</column_name>
-        <stream_name>energy_consumption</stream_name>
+        <column_name>unit_price</column_name>
+        <stream_name>unit_price</stream_name>
       </field>
       <field>
-        <column_name>machine_status</column_name>
-        <stream_name>machine_status</stream_name>
+        <column_name>order_date</column_name>
+        <stream_name>order_date</stream_name>
       </field>
       <field>
-        <column_name>anomaly_flag</column_name>
-        <stream_name>anomaly_flag</stream_name>
+        <column_name>delivery_date</column_name>
+        <stream_name>delivery_date</stream_name>
       </field>
       <field>
-        <column_name>predicted_remaining_life</column_name>
-        <stream_name>predicted_remaining_life</stream_name>
+        <column_name>warehouse_id</column_name>
+        <stream_name>warehouse_id</stream_name>
       </field>
       <field>
-        <column_name>failure_type</column_name>
-        <stream_name>failure_type</stream_name>
+        <column_name>status</column_name>
+        <stream_name>status</stream_name>
       </field>
       <field>
-        <column_name>downtime_risk</column_name>
-        <stream_name>downtime_risk</stream_name>
+        <column_name>source_file</column_name>
+        <stream_name>source_file</stream_name>
       </field>
       <field>
-        <column_name>maintenance_required</column_name>
-        <stream_name>maintenance_required</stream_name>
+        <column_name>batch_id</column_name>
+        <stream_name>batch_id</stream_name>
+      </field>
+      <field>
+        <column_name>load_timestamp</column_name>
+        <stream_name>load_timestamp</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -805,8 +1170,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>240</yloc>
+      <xloc>1000</xloc>
+      <yloc>100</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

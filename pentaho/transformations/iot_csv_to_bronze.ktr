@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>4 XML File</name>
+    <name>iot_csv_to_bronze</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -427,23 +428,23 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2026/08/21 10:57:10.450</created_date>
+    <created_date>2026/08/26 22:29:37.656</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2026/08/21 10:57:10.450</modified_date>
-    <key_for_session_key>H4sIAAAAAAAA/wMAAAAAAAAAAAA=</key_for_session_key>
+    <modified_date>2026/08/26 22:29:37.656</modified_date>
+    <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>XMLfile</name>
+    <name>DA-1_PostgreSQL</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>XMLfile</database>
+    <database>DA-1</database>
     <port>5432</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4fa4bfd248bc4f882</password>
+    <password>Encrypted 2be98afc86aa7f2a6aa1aa5508fc1ff8e</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -488,19 +489,24 @@
   </connection>
   <order>
     <hop>
-      <from>Get data from XML</from>
-      <to>Write to log</to>
+      <from>Read IoT CSV</from>
+      <to>Convert IoT Fields</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Read IoT CSV</from>
+      <to>Convert IoT Fields</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Write to log</from>
-      <to>Table output</to>
+      <from>Convert IoT Fields</from>
+      <to>Load IoT Bronze</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Get data from XML</name>
-    <type>getXMLData</type>
+    <name>Read IoT CSV</name>
+    <type>CsvInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -509,342 +515,165 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <namespaceaware>N</namespaceaware>
-    <ignorecomments>N</ignorecomments>
-    <readurl>N</readurl>
-    <validating>N</validating>
-    <usetoken>N</usetoken>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <filename>C:\Enterprise_Manufacturing_Data_Platform\datasets\iot_manufacturing_data.csv</filename>
+    <filename_field/>
     <rownum_field/>
-    <encoding>UTF-8</encoding>
-    <file>
-      <name>D:/Pentaho Project/XML maintenance_work_orders.xml</name>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
+    <include_filename>N</include_filename>
+    <separator>,</separator>
+    <enclosure>"</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <format>mixed</format>
+    <encoding/>
     <fields>
       <field>
-        <name>Location</name>
-        <xpath>Location</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
+        <name>timestamp</name>
         <type>String</type>
         <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>16</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>Region</name>
-        <xpath>Region</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>machine_id</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>WorkOrder</name>
-        <xpath>WorkOrder</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>temperature</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>5</length>
+        <precision>2</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>Equipment_ID</name>
-        <xpath>Equipment_ID</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>vibration</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>5</length>
+        <precision>2</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>OrderType</name>
-        <xpath>OrderType</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>humidity</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>5</length>
+        <precision>2</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>WorkOrderDescription</name>
-        <xpath>WorkOrderDescription</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>pressure</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>4</length>
+        <precision>2</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>OperationDescription</name>
-        <xpath>OperationDescription</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>energy_consumption</name>
+        <type>Number</type>
+        <format>#.#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>4</length>
+        <precision>2</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>MaintenanceWorkCenter</name>
-        <xpath>MaintenanceWorkCenter</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>machine_status</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>OperationWorkCenter</name>
-        <xpath>OperationWorkCenter</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>anomaly_flag</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>Maintenance_activity_type</name>
-        <xpath>Maintenance_activity_type</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>predicted_remaining_life</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>CreatedDate</name>
-        <xpath>CreatedDate</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
+        <name>failure_type</name>
         <type>String</type>
         <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>ScheduledStartDate</name>
-        <xpath>ScheduledStartDate</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>downtime_risk</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
       <field>
-        <name>ScheduledFinishDate</name>
-        <xpath>ScheduledFinishDate</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <name>maintenance_required</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>Rs.</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>ActualStartDate</name>
-        <xpath>ActualStartDate</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>ActualFinishDate</name>
-        <xpath>ActualFinishDate</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>TechnicalCompletionDate</name>
-        <xpath>TechnicalCompletionDate</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>CloseData</name>
-        <xpath>CloseData</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>ActualWork</name>
-        <xpath>ActualWork</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>PlannedWork</name>
-        <xpath>PlannedWork</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>OrderStatus</name>
-        <xpath>OrderStatus</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
       </field>
     </fields>
-    <limit>0</limit>
-    <loopxpath>/MaintenanceWorkOrders/WorkOrder</loopxpath>
-    <IsInFields>N</IsInFields>
-    <IsAFile>N</IsAFile>
-    <XmlField/>
-    <prunePath/>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -854,13 +683,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>200</xloc>
-      <yloc>100</yloc>
+      <xloc>176</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table output</name>
+    <name>Load IoT Bronze</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -870,11 +699,11 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>XMLfile</connection>
-    <schema>staging</schema>
-    <table>maintenance_work_orders</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
+    <connection>DA-1_PostgreSQL</connection>
+    <schema>bronze</schema>
+    <table>iot_manufacturing</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
@@ -889,84 +718,56 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>location</column_name>
-        <stream_name>Location</stream_name>
+        <column_name>timestamp</column_name>
+        <stream_name>timestamp</stream_name>
       </field>
       <field>
-        <column_name>region</column_name>
-        <stream_name>Region</stream_name>
+        <column_name>machine_id</column_name>
+        <stream_name>machine_id</stream_name>
       </field>
       <field>
-        <column_name>equipment_id</column_name>
-        <stream_name>Equipment_ID</stream_name>
+        <column_name>temperature</column_name>
+        <stream_name>temperature</stream_name>
       </field>
       <field>
-        <column_name>maintenance_activity_type</column_name>
-        <stream_name>Maintenance_activity_type</stream_name>
+        <column_name>vibration</column_name>
+        <stream_name>vibration</stream_name>
       </field>
       <field>
-        <column_name>work_order</column_name>
-        <stream_name>WorkOrder</stream_name>
+        <column_name>humidity</column_name>
+        <stream_name>humidity</stream_name>
       </field>
       <field>
-        <column_name>order_type</column_name>
-        <stream_name>OrderType</stream_name>
+        <column_name>pressure</column_name>
+        <stream_name>pressure</stream_name>
       </field>
       <field>
-        <column_name>work_order_description</column_name>
-        <stream_name>WorkOrderDescription</stream_name>
+        <column_name>energy_consumption</column_name>
+        <stream_name>energy_consumption</stream_name>
       </field>
       <field>
-        <column_name>operation_description</column_name>
-        <stream_name>OperationDescription</stream_name>
+        <column_name>machine_status</column_name>
+        <stream_name>machine_status</stream_name>
       </field>
       <field>
-        <column_name>maintenance_work_center</column_name>
-        <stream_name>MaintenanceWorkCenter</stream_name>
+        <column_name>anomaly_flag</column_name>
+        <stream_name>anomaly_flag</stream_name>
       </field>
       <field>
-        <column_name>operation_work_center</column_name>
-        <stream_name>OperationWorkCenter</stream_name>
+        <column_name>predicted_remaining_life</column_name>
+        <stream_name>predicted_remaining_life</stream_name>
       </field>
       <field>
-        <column_name>created_date</column_name>
-        <stream_name>CreatedDate</stream_name>
+        <column_name>failure_type</column_name>
+        <stream_name>failure_type</stream_name>
       </field>
       <field>
-        <column_name>scheduled_start_date</column_name>
-        <stream_name>ScheduledStartDate</stream_name>
+        <column_name>downtime_risk</column_name>
+        <stream_name>downtime_risk</stream_name>
       </field>
       <field>
-        <column_name>scheduled_finish_date</column_name>
-        <stream_name>ScheduledFinishDate</stream_name>
-      </field>
-      <field>
-        <column_name>actual_start_date</column_name>
-        <stream_name>ActualStartDate</stream_name>
-      </field>
-      <field>
-        <column_name>actual_finish_date</column_name>
-        <stream_name>ActualFinishDate</stream_name>
-      </field>
-      <field>
-        <column_name>technical_completion_date</column_name>
-        <stream_name>TechnicalCompletionDate</stream_name>
-      </field>
-      <field>
-        <column_name>close_date</column_name>
-        <stream_name>CloseData</stream_name>
-      </field>
-      <field>
-        <column_name>actual_work</column_name>
-        <stream_name>ActualWork</stream_name>
-      </field>
-      <field>
-        <column_name>planned_work</column_name>
-        <stream_name>PlannedWork</stream_name>
-      </field>
-      <field>
-        <column_name>order_status</column_name>
-        <stream_name>OrderStatus</stream_name>
+        <column_name>maintenance_required</column_name>
+        <stream_name>maintenance_required</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -978,14 +779,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>600</xloc>
-      <yloc>100</yloc>
+      <xloc>544</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
+    <name>Convert IoT Fields</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -994,13 +795,230 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
     <fields>
-      </fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>timestamp</name>
+        <rename>timestamp</rename>
+        <type>Date</type>
+        <length>16</length>
+        <precision>-2</precision>
+        <conversion_mask>dd-MM-yyyy HH:mm</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>machine_id</name>
+        <rename>machine_id</rename>
+        <type>Integer</type>
+        <length>15</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>temperature</name>
+        <rename>temperature</rename>
+        <type>Number</type>
+        <length>5</length>
+        <precision>2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>vibration</name>
+        <rename>vibration</rename>
+        <type>Number</type>
+        <length>5</length>
+        <precision>2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>humidity</name>
+        <rename>humidity</rename>
+        <type>Number</type>
+        <length>5</length>
+        <precision>2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>pressure</name>
+        <rename>pressure</rename>
+        <type>Number</type>
+        <length>4</length>
+        <precision>2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>energy_consumption</name>
+        <rename>energy_consumption</rename>
+        <type>Number</type>
+        <length>4</length>
+        <precision>2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>machine_status</name>
+        <rename>machine_status</rename>
+        <type>String</type>
+        <length>15</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>anomaly_flag</name>
+        <rename>anomaly_flag</rename>
+        <type>Boolean</type>
+        <length>15</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>predicted_remaining_life</name>
+        <rename>predicted_remaining_life</rename>
+        <type>Number</type>
+        <length>15</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>failure_type</name>
+        <rename>failure_type</rename>
+        <type>String</type>
+        <length>15</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>downtime_risk</name>
+        <rename>downtime_risk</rename>
+        <type>Number</type>
+        <length>15</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>maintenance_required</name>
+        <rename>maintenance_required</rename>
+        <type>Boolean</type>
+        <length>15</length>
+        <precision>0</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1010,8 +1028,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>100</yloc>
+      <xloc>352</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

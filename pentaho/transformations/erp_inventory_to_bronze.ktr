@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>2 Excel File</name>
+    <name>erp_inventory_to_bronze</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,23 +427,23 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2026/08/20 23:03:42.049</created_date>
+    <created_date>2026/08/28 06:06:04.647</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2026/08/20 23:03:42.049</modified_date>
-    <key_for_session_key>H4sIAAAAAAAA/wMAAAAAAAAAAAA=</key_for_session_key>
+    <modified_date>2026/08/28 06:06:04.647</modified_date>
+    <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>exceliot</name>
+    <name>DA-1_PostgreSQL</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>exceliot</database>
+    <database>DA-1</database>
     <port>5432</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4fa4bfd248bc4f882</password>
+    <password>Encrypted 2be98afc86aa7f2a6aa1aa5508fc1ff8e</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -488,19 +488,24 @@
   </connection>
   <order>
     <hop>
-      <from>Microsoft Excel input</from>
-      <to>Write to log</to>
+      <from>Read ERP Inventory</from>
+      <to>Add ERP Metadata</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Write to log</from>
-      <to>Table output</to>
+      <from>Add ERP Metadata</from>
+      <to>Generate Load Timestamp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Generate Load Timestamp</from>
+      <to>Load ERP Inventory Bronze</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Microsoft Excel input</name>
-    <type>ExcelInput</type>
+    <name>Read ERP Inventory</name>
+    <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -509,296 +514,26 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <header>Y</header>
-    <noempty>Y</noempty>
-    <stoponempty>N</stoponempty>
-    <filefield/>
-    <sheetfield/>
-    <sheetrownumfield/>
-    <rownumfield/>
-    <sheetfield/>
-    <filefield/>
+    <connection>DA-1_PostgreSQL</connection>
+    <sql>SELECT
+    inventory_id,
+    material_id,
+    material_name,
+    material_category,
+    warehouse_id,
+    stock_quantity,
+    reorder_level,
+    unit_cost,
+    last_updated,
+    stock_status
+FROM erp_inventory_source;</sql>
     <limit>0</limit>
-    <encoding/>
-    <add_to_result_filenames>Y</add_to_result_filenames>
-    <accept_filenames>N</accept_filenames>
-    <accept_field/>
-    <accept_stepname/>
-    <file>
-      <name>D:/Pentaho Project/2. Excel Manufacturing Dataset.xls</name>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>Production ID</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Date</name>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Product Type</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Machine ID</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Shift</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Units Produced</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Defects</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Production Time Hours</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Material Cost Per Unit</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Labour Cost Per Hour</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Energy Consumption kWh</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Operator Count</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Maintenance Hours</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Down time Hours</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Production Volume Cubic Meters</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Scrap Rate</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Rework Hours</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Quality Checks Failed</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Average Temperature C</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>Average Humidity Percent</name>
-        <type>BigNumber</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-    </fields>
-    <sheets>
-      <sheet>
-        <name>Manufacturing Dataset</name>
-        <startrow>0</startrow>
-        <startcol>0</startcol>
-      </sheet>
-    </sheets>
-    <strict_types>N</strict_types>
-    <error_ignored>N</error_ignored>
-    <error_line_skipped>N</error_line_skipped>
-    <bad_line_files_destination_directory/>
-    <bad_line_files_extension>warning</bad_line_files_extension>
-    <error_line_files_destination_directory/>
-    <error_line_files_extension>error</error_line_files_extension>
-    <line_number_files_destination_directory/>
-    <line_number_files_extension>line</line_number_files_extension>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <spreadsheet_type>JXL</spreadsheet_type>
-    <password>Encrypted </password>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -814,8 +549,8 @@
     </GUI>
   </step>
   <step>
-    <name>Table output</name>
-    <type>TableOutput</type>
+    <name>Add ERP Metadata</name>
+    <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -824,103 +559,61 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>exceliot</connection>
-    <schema>staging</schema>
-    <table>manufacturing_dataset</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
     <fields>
       <field>
-        <column_name>shift</column_name>
-        <stream_name>Shift</stream_name>
+        <name>source_file</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>erp_inventory_source.sql</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <column_name>defects</column_name>
-        <stream_name>Defects</stream_name>
+        <name>batch_id</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ERP_INVENTORY_001</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>100</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Generate Load Timestamp</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
       <field>
-        <column_name>production_id</column_name>
-        <stream_name>Production ID</stream_name>
-      </field>
-      <field>
-        <column_name>production_date</column_name>
-        <stream_name>Date</stream_name>
-      </field>
-      <field>
-        <column_name>product_type</column_name>
-        <stream_name>Product Type</stream_name>
-      </field>
-      <field>
-        <column_name>machine_id</column_name>
-        <stream_name>Machine ID</stream_name>
-      </field>
-      <field>
-        <column_name>units_produced</column_name>
-        <stream_name>Units Produced</stream_name>
-      </field>
-      <field>
-        <column_name>production_time_hours</column_name>
-        <stream_name>Production Time Hours</stream_name>
-      </field>
-      <field>
-        <column_name>material_cost_per_unit</column_name>
-        <stream_name>Material Cost Per Unit</stream_name>
-      </field>
-      <field>
-        <column_name>labour_cost_per_hour</column_name>
-        <stream_name>Labour Cost Per Hour</stream_name>
-      </field>
-      <field>
-        <column_name>energy_consumption_kwh</column_name>
-        <stream_name>Energy Consumption kWh</stream_name>
-      </field>
-      <field>
-        <column_name>operator_count</column_name>
-        <stream_name>Operator Count</stream_name>
-      </field>
-      <field>
-        <column_name>maintenance_hours</column_name>
-        <stream_name>Maintenance Hours</stream_name>
-      </field>
-      <field>
-        <column_name>downtime_hours</column_name>
-        <stream_name>Down time Hours</stream_name>
-      </field>
-      <field>
-        <column_name>production_volume_cum</column_name>
-        <stream_name>Production Volume Cubic Meters</stream_name>
-      </field>
-      <field>
-        <column_name>scrap_rate</column_name>
-        <stream_name>Scrap Rate</stream_name>
-      </field>
-      <field>
-        <column_name>rework_hours</column_name>
-        <stream_name>Rework Hours</stream_name>
-      </field>
-      <field>
-        <column_name>quality_checks_failed</column_name>
-        <stream_name>Quality Checks Failed</stream_name>
-      </field>
-      <field>
-        <column_name>avg_temperature_c</column_name>
-        <stream_name>Average Temperature C</stream_name>
-      </field>
-      <field>
-        <column_name>avg_humidity_percent</column_name>
-        <stream_name>Average Humidity Percent</stream_name>
+        <name>load_timestamp</name>
+        <type>system date (fixed)</type>
       </field>
     </fields>
     <attributes/>
@@ -938,8 +631,8 @@
     </GUI>
   </step>
   <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
+    <name>Load ERP Inventory Bronze</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -948,13 +641,77 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
+    <connection>DA-1_PostgreSQL</connection>
+    <schema>bronze</schema>
+    <table>erp_inventory</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
     <fields>
-      </fields>
+      <field>
+        <column_name>inventory_id</column_name>
+        <stream_name>inventory_id</stream_name>
+      </field>
+      <field>
+        <column_name>material_id</column_name>
+        <stream_name>material_id</stream_name>
+      </field>
+      <field>
+        <column_name>material_name</column_name>
+        <stream_name>material_name</stream_name>
+      </field>
+      <field>
+        <column_name>material_category</column_name>
+        <stream_name>material_category</stream_name>
+      </field>
+      <field>
+        <column_name>warehouse_id</column_name>
+        <stream_name>warehouse_id</stream_name>
+      </field>
+      <field>
+        <column_name>stock_quantity</column_name>
+        <stream_name>stock_quantity</stream_name>
+      </field>
+      <field>
+        <column_name>reorder_level</column_name>
+        <stream_name>reorder_level</stream_name>
+      </field>
+      <field>
+        <column_name>unit_cost</column_name>
+        <stream_name>unit_cost</stream_name>
+      </field>
+      <field>
+        <column_name>last_updated</column_name>
+        <stream_name>last_updated</stream_name>
+      </field>
+      <field>
+        <column_name>stock_status</column_name>
+        <stream_name>stock_status</stream_name>
+      </field>
+      <field>
+        <column_name>source_file</column_name>
+        <stream_name>source_file</stream_name>
+      </field>
+      <field>
+        <column_name>batch_id</column_name>
+        <stream_name>batch_id</stream_name>
+      </field>
+      <field>
+        <column_name>load_timestamp</column_name>
+        <stream_name>load_timestamp</stream_name>
+      </field>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -964,24 +721,12 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>800</xloc>
       <yloc>100</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
-    <error>
-      <source_step>Table output</source_step>
-      <target_step/>
-      <is_enabled>Y</is_enabled>
-      <nr_valuename/>
-      <descriptions_valuename/>
-      <fields_valuename/>
-      <codes_valuename/>
-      <max_errors/>
-      <max_pct_errors/>
-      <min_pct_rows/>
-    </error>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
