@@ -1,5 +1,5 @@
-import pandas as pd
-from sqlalchemy import create_engine
+import pandas as pd  # pyright: ignore[reportMissingModuleSource]
+from sqlalchemy import create_engine  # pyright: ignore[reportMissingImports]
 
 # --------------------------------------------------
 # PostgreSQL connection
