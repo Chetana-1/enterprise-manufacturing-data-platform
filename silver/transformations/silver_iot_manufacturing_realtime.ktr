@@ -623,11 +623,11 @@ if (missing_fields_count == 0) {
     b.load_timestamp,
     b.source_file,
     b.batch_id
-FROM bronze.iot_manufacturing b
+FROM bronze.iot_manufacturing_realtime b
 WHERE b.batch_id LIKE 'REALTIME_%'
   AND NOT EXISTS (
       SELECT 1
-      FROM silver.iot_manufacturing s
+      FROM silver.iot_manufacturing_realtime s
       WHERE s.timestamp = b.timestamp
         AND s.machine_id = b.machine_id
   );</sql>
@@ -662,14 +662,14 @@ WHERE b.batch_id LIKE 'REALTIME_%'
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Integer</type>
+        <type>String</type>
         <storagetype>normal</storagetype>
         <name>machine_id</name>
-        <length>9</length>
-        <precision>0</precision>
+        <length>50</length>
+        <precision>-1</precision>
         <origin>Table input</origin>
         <comments>machine_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
+        <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -712,7 +712,7 @@ WHERE b.batch_id LIKE 'REALTIME_%'
         <storagetype>normal</storagetype>
         <name>vibration</name>
         <length>10</length>
-        <precision>4</precision>
+        <precision>2</precision>
         <origin>Table input</origin>
         <comments>vibration</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
@@ -780,8 +780,8 @@ WHERE b.batch_id LIKE 'REALTIME_%'
         <type>Number</type>
         <storagetype>normal</storagetype>
         <name>energy_consumption</name>
-        <length>12</length>
-        <precision>4</precision>
+        <length>10</length>
+        <precision>2</precision>
         <origin>Table input</origin>
         <comments>energy_consumption</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
@@ -800,14 +800,14 @@ WHERE b.batch_id LIKE 'REALTIME_%'
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>machine_status</name>
-        <length>50</length>
-        <precision>-1</precision>
+        <length>9</length>
+        <precision>0</precision>
         <origin>Table input</origin>
         <comments>machine_status</comments>
-        <conversion_Mask/>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -849,7 +849,7 @@ WHERE b.batch_id LIKE 'REALTIME_%'
         <type>Number</type>
         <storagetype>normal</storagetype>
         <name>predicted_remaining_life</name>
-        <length>12</length>
+        <length>10</length>
         <precision>2</precision>
         <origin>Table input</origin>
         <comments>predicted_remaining_life</comments>
@@ -896,7 +896,7 @@ WHERE b.batch_id LIKE 'REALTIME_%'
         <storagetype>normal</storagetype>
         <name>downtime_risk</name>
         <length>10</length>
-        <precision>4</precision>
+        <precision>2</precision>
         <origin>Table input</origin>
         <comments>downtime_risk</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
@@ -1034,9 +1034,9 @@ WHERE b.batch_id LIKE 'REALTIME_%'
     </partitioning>
     <connection>Data engineering</connection>
     <schema>silver</schema>
-    <table>iot_manufacturing</table>
+    <table>iot_manufacturing_realtime</table>
     <commit>1000</commit>
-    <truncate>Y</truncate>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
